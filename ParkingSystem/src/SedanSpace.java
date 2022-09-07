@@ -1,5 +1,5 @@
 public class SedanSpace extends SpaceType{
-    public final static String spaceTypeName = "Sedan";
+    public final static SpaceTypeName spaceTypeName = SpaceTypeName.SEDAN;
     public final static double chargePerHour = 80.0d;
     @Override
     public double getChargesPerHour() {
@@ -7,7 +7,7 @@ public class SedanSpace extends SpaceType{
     }
 
     @Override
-    public String getSpaceTypeName(){
+    public SpaceTypeName getSpaceTypeName(){
         return spaceTypeName;
     }
 }

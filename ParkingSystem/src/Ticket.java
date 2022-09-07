@@ -4,21 +4,29 @@ public class Ticket {
     String id;
     long entryDateTime, exitDateTime;
     Vehicle vehicle;
-    double totalParkingCharges;
+    double parkingChargesPerHour;
+    VehicleStatus vehicleStatus;
 
     Ticket(){}
-    Ticket(Vehicle vehicle){
+    public Ticket(Vehicle vehicle){
         this.vehicle = vehicle;
         entryDateTime = CurrentDate.getCurrentDateTime();
-    }
+        vehicleStatus = VehicleStatus.IN_PARKINGLOT;
 
+        switch (vehicle.vehicleType){
+            case SEDAN: parkingChargesPerHour = SedanSpace.chargePerHour; break;
+            case SUV: parkingChargesPerHour = SUVSpace.chargePerHour; break;
+        }
+    }
     int parkedDurationInHours(){
         Date dt = new Date(exitDateTime - entryDateTime);
-        return dt.getHours();
+        int parkedDurationHrs =(int) Math.ceil((double)dt.getSeconds() / 3600);
+        System.out.println(parkedDurationHrs);
+        return parkedDurationHrs;
     }
 
-    double calculateTotalCharges(){
-        double charges = parkedDurationInHours() * totalParkingCharges;
+    public double calculateTotalCharges(){
+        double charges = parkedDurationInHours() * parkingChargesPerHour;
         return  charges;
     }
 

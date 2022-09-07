@@ -1,24 +1,29 @@
 public class ParkingLot {
-    String floorId;
-    ParkingLotSpace parkingLotSpace;
+    ParkingLotFloor parkingLotFloor;
     TicketManager ticketManager;
 
-    public void setFloorId(String floorId){
-        this.floorId = floorId;
-    }
-    public String getFloorId() {
-        return floorId;
+    public ParkingLot(String floorId){
+        parkingLotFloor = new ParkingLotFloor(floorId);
+        ticketManager = new TicketManager();
     }
 
     public void addSpace(SpaceType st){
-        parkingLotSpace.addSpace(st);
-    }
-    public void removeSpace(SpaceType st){
-        parkingLotSpace.removeSpace(st);
+        parkingLotFloor.addSpace(st);
     }
 
-    public int generateTicket(Vehicle v){
-        return ticketManager.generateTicket(v);
+    public void vehicleIn(Vehicle v){
+        SpaceType st = v.resolveSpaceType();
+        // check if corresponding space type is available, then only mark entry
+        if(parkingLotFloor.hasSpaceAvailable(st)){
+            ticketManager.markEntry(v);
+            parkingLotFloor.useSpace(st);
+        }
+
+        System.out.println("No Space available this Vehicle");
+    }
+
+    public void vehicleOut(Vehicle v){
+        ticketManager.markExit(v);
     }
 
 }

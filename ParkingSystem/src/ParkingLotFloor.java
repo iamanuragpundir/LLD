@@ -1,9 +1,15 @@
 import java.util.HashMap;
 
-public class ParkingLotSpace {
+public class ParkingLotFloor {
+    String floorId;
     HashMap<SpaceType, Integer> totalSpace;
     HashMap<SpaceType, Integer> availableSpace;
 
+    public ParkingLotFloor(String floorId){
+        this.floorId = floorId;
+        totalSpace = new HashMap<>();
+        availableSpace = new HashMap<>();
+    }
     public void addSpace(SpaceType st){
         if(totalSpace.containsKey(st))
             totalSpace.put(st, totalSpace.get(st) + 1);
@@ -16,14 +22,12 @@ public class ParkingLotSpace {
         else System.out.println("No space avaialable for this type of Vehicle.");
     }
 
-    public boolean hasSpaceAvailable(SpaceType st){
-        return availableSpace.get(st) > 1;
+    public void freeSpace(SpaceType st){
+        availableSpace.put(st, availableSpace.get(st) +  1);
     }
 
-    public void removeSpace(SpaceType st){
-        if(totalSpace.containsKey(st) &&  totalSpace.get(st) > 0)
-            totalSpace.remove(st);
-        else System.out.println("No such space.");
+    public boolean hasSpaceAvailable(SpaceType st){
+        return (st != null) ? availableSpace.get(st) > 1 : false;
     }
 
     public int getAvailableSpace(SpaceType st){
